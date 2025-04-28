@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formulario de Asistencia</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/style.css">
+    <script src="https://cdn.jsdelivr.net/npm/signature_pad@4.0.0/dist/signature_pad.umd.min.js"></script>
+    <script src="/static/scripts.js"></script>
+</head>
+<body>
+    <div class="container">
+        <h1>Control de asistencias multisesiones</h1>
+
+        <form id="formulario" action="/guardar" method="POST" enctype="multipart/form-data">
+            
+            <div class="form-group">
+                <label for="tipo_documento">Tipo de Documento:</label>
+                <select name="tipo_documento" id="tipo_documento" required>
+                    <option value="">Selecciona un tipo de documento</option>
+                    <option value="CC">Cédula de Ciudadanía</option>
+                    <option value="CE">Cédula de Extranjería</option>
+                    <option value="TI">Tarjeta de Identidad</option>
+                    <option value="P">Pasaporte</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="documento">Documento de Identidad:</label>
+                <input type="text" name="documento" id="documento">
+                <button type="button" onclick="verificarCliente()">Verificar Cliente</button>
+            </div>
+
+            <div class="form-group">
+                <label for="nombre">Nombre Completo:</label>
+                <input type="text" name="nombre" id="nombre">
+            </div>
+
+            <div class="form-group">
+                <label for="entidad">Entidad:</label>
+                <input type="text" name="entidad" id="entidad">
+            </div>
+
+            <div class="form-group">
+                <label for="servicio">Servicio:</label>
+                <select id="servicio" name="servicio">
+                    <option value="">Selecciona un servicio</option>
+                    <option value="TERAPIA FISICA">TERAPIA FISICA</option>
+                    <option value="OCUPACIONAL">OCUPACIONAL</option>
+                    <option value="ONDAS DE CHOQUE">ONDAS DE CHOQUE</option>
+                    <option value="MODALIDADES ELECTRICAS">MODALIDADES ELECTRICAS</option>
+                    <option value="LITOTRICIA">LITOTRICIA</option>
+                    <option value="ACUPUNTURA">ACUPUNTURA</option>
+                    <option value="NEURAL TERAPIA">NEURAL TERAPIA</option>
+                    <option value="SUERO TERAPIA">SUERO TERAPIA</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="profesional">Profesional:</label>
+                <input type="text" id="profesional" name="profesional" autocomplete="off">
+            </div>
+
+            <div class="form-group">
+                <label for="sesiones_aprobadas">Sesiones Aprobadas:</label>
+                <input type="number" id="sesiones_aprobadas" name="sesiones_aprobadas" min="0" required>
+            </div>
+
+            <div class="form-group">
+                <label for="sesiones">Sesiones:</label>
+                <input type="number" name="sesiones" id="sesiones">
+            </div>
+
+            <div class="form-group">
+                <label for="lateral">Lateral:</label>
+                <select id="lateral" name="lateral">
+                    <option value="">Seleccionar</option>
+                    <option value="Si">Sí</option>
+                    <option value="No">No</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="bilateral">Bilateral:</label>
+                <select id="bilateral" name="bilateral">
+                    <option value="">Seleccionar</option>
+                    <option value="Si">Sí</option>
+                    <option value="No">No</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="cancela">Cancela:</label>
+                <select name="cancela" id="cancela">
+                    <option value="">Selecciona una opcion</option>
+                    <option value="SI">SI</option>
+                    <option value="NO">NO</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="facturador">Facturador:</label>
+                <input type="text" id="facturador" name="facturador" autocomplete="off">
+            </div>
+
+            <div class="form-group">
+                <label for="fecha">Fecha de Asistencia:</label>
+                <input type="date" name="fecha" id="fecha">
+            </div>
+
+            <div class="form-group">
+                <label for="sede">Sede:</label>
+                <select id="sede" name="sede">
+                    <option value="ELECTROFISIATRIA MORATO">ELECTROFISIATRIA MORATO</option>
+                </select>
+            </div>
+
+            <div class="firma-container">
+                <h2>Firma Digital</h2>
+                <canvas id="firmaCanvas" width="400 " height="150" ></canvas>
+                <canvas id="firmaCanvas2" width="400 " height="150"  class="canvas-firma oculto"></canvas>
+                <br>
+                <button type="button" onclick="limpiarFirma()">Limpiar Firma</button>
+                <input type="hidden" name="firma" id="firma">
+                <input type="hidden" id="firma_bilateral" name="firma_bilateral">
+                <br>
+                <img id="firmaImagen" alt="Firma Digital" style="display: none;">
+            </div>
+
+            <div class="botones-container">
+                <button type="submit" class="boton-accion">Guardar Datos</button>
+                <button type="button" onclick="limpiarCampos()" class="boton-accion">Limpiar Campos</button>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">¿Autoriza el uso de su firma digital para futuras citas?</label><br>
+                <div class="radio-group">
+                    <label class="radio-option"><input type="radio" name="consentimiento" value="sí"> Sí, autorizo el uso de mi firma</label>
+                    <label class="radio-option"><input type="radio" name="consentimiento" value="no"> No autorizo el uso de mi firma</label>
+                </div>
+            </div>
+            
+
+        </form>        
+
+        <h2>Generar PDF de Asistencia</h2>
+        <button id="generarPdfBtn" onclick="generarPDF()">Generar PDF</button>
+
+        <h3>Buscar historia clínica</h3>
+        <input type="text" id="documentoBuscar" placeholder="Número de documento">
+        <button onclick="buscarHistoria()">Buscar historia clínica</button>
+
+        <div id="resultadoHistoria"></div>
+    </div>
+</body>
+</html>

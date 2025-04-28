@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reporte del Cliente</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 40px;
+            padding: 20px;
+        }
+        .encabezado {
+            text-align: center;
+            font-size: 20px;
+            font-weight: bold;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #000;
+        }
+        .contenido {
+            text-align: left;
+        }
+        .firma {
+            margin-top: 30px;
+            text-align: center;
+        }
+        .firma img {
+            width: 200px;
+            height: auto;
+            display: block;
+            margin: 0 auto;
+        }
+        .pie-pagina {
+            position: fixed;
+            bottom: 10px;
+            left: 0;
+            right: 0;
+            text-align: center;
+            font-size: 14px;
+            border-top: 2px solid #000;
+            padding-top: 10px;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Encabezado -->
+    <div class="encabezado">
+        <h1>Clínica XYZ</h1>
+        <p>Reporte de Atención al Paciente</p>
+    </div>
+
+    <!-- Contenido -->
+    <div class="contenido">
+        <p><strong>📌 Documento:</strong> {{ documento }}</p>
+        <p><strong>📌 Nombre:</strong> {{ nombre }}</p>
+        <p><strong>📌 Fecha de Nacimiento:</strong> {{ fecha_nacimiento }}</p>
+        <p><strong>📌 Entidad:</strong> {{ entidad }}</p>
+        <p><strong>📌 Servicio:</strong> {{ servicio }}</p>
+        <p><strong>📌 Profesional:</strong> {{ profesional }}</p>
+        <p><strong>📌 Sesiones:</strong> {{ sesiones }}</p>
+        <p><strong>📌 Lateral:</strong> {{ lateral }}</p>
+        <p><strong>📌 Bilateral:</strong> {{ bilateral }}</p>
+        <p><strong>📌 Cancela:</strong> {{ cancela }}</p>
+        <p><strong>📌 Facturador:</strong> {{ facturador }}</p>
+        <p><strong>📌 Fecha de Registro:</strong> {{ fecha }}</p>
+        <p><strong>📌 Sede:</strong> {{ sede }}</p>
+
+        <!-- Firma del paciente -->
+        {% if firma %}
+        <div class="firma">
+            <p><strong>✍️ Firma del paciente</strong></p>
+            <img src="{{ firma }}" alt="Firma del paciente">
+        </div>
+        {% endif %}
+    </div>
+
+    <!-- Pie de página -->
+    <div class="pie-pagina">
+        <p>📌 Este documento es confidencial y solo puede ser utilizado por el paciente y la clínica.</p>
+        <p>📞 Contacto: 123-456-7890 | 🌍 www.clinicaxyz.com</p>
+    </div>
+
+</body>
+</html>
